@@ -50,7 +50,7 @@ margin-left + padding-left + border-left + width + border-right + padding-right 
 　　 如果三者中不只一个auto，如果其中存在两个值为auto:
 
 1. **假设设置了`margin-left`和`margin-right`为auto,`width`为具体数值**: 会将两个外边距设置为相等的长度，使得元素在其父元素居中显示,
-```
+```css
 p{
   width: 100px;
   margin-left: auto;
@@ -58,3 +58,20 @@ p{
 }
 ```
 上面的代码会使段落居中显示，相比`text-align`的区别是，`text-align`仅仅只能使得块级元素的行内元素居中
+
+2. **假设设置了一个`margin`和`width`为auto,另一个`margin`为具体的数值**: 会将设置了值为auto的`margin`会被减为0。
+
+　　 如果三者都被设置了auto，情况的处理也是非常简单，两个`margin`会被减为0，`width`会按照上述的方式进行相应的计算。
+
+### 负值的`margin`
+
+　　 前面介绍过，仅仅只有`margin`的值可以为负数，其实即便是`margin`的值为负数，但也仍然满足
+
+> 元素框width = margin-left + padding-left + border-left + width + border-right + padding-right + margin-right
+
+例如假设元素框的宽度为400px,`padding`和`border`值都为0，`margin-left`为0，`margin-right`的值为-50px,因此计算出`width`的值为450px，出现的情况是子元素的width宽度大于父元素的width,
+虽然看起来很不符合逻辑，实质上是满足规定的。
+
+### 替换元素
+
+　　 替换元素的宽度是如果没有显式的赋值(即为auto),是由内容的固有宽度去决定(例如img中图像的宽度)，需要注意的是，如果仅仅只是设置了`width`,`height`也会按照替换元素内容的固有大小进行等比例缩放。
