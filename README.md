@@ -15,7 +15,7 @@
 * 值和单位
 * 字体
 * 文本属性
-* 基本视觉格式化
+* [基本视觉格式化](https://github.com/MrErHu/CSS-The-Definitive-Guide-Summary/blob/master/doc/chapter-7.md)
 * 内边距、边框、外边距
 * 颜色和背景
 * 浮动和定位

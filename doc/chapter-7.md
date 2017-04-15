@@ -63,7 +63,7 @@ p{
 
 　　 如果三者都被设置了auto，情况的处理也是非常简单，两个`margin`会被减为0，`width`会按照上述的方式进行相应的计算。
 
-### 负值的`margin`
+#### 负值的`margin`
 
 　　 前面介绍过，仅仅只有`margin`的值可以为负数，其实即便是`margin`的值为负数，但也仍然满足
 
@@ -72,6 +72,168 @@ p{
 例如假设元素框的宽度为400px,`padding`和`border`值都为0，`margin-left`为0，`margin-right`的值为-50px,因此计算出`width`的值为450px，出现的情况是子元素的width宽度大于父元素的width,
 虽然看起来很不符合逻辑，实质上是满足规定的。
 
-### 替换元素
+#### 替换元素
 
 　　 替换元素的宽度是如果没有显式的赋值(即为auto),是由内容的固有宽度去决定(例如img中图像的宽度)，需要注意的是，如果仅仅只是设置了`width`,`height`也会按照替换元素内容的固有大小进行等比例缩放。
+
+### 垂直格式化
+
+　　 块级元素的默认高度由其元素的高度决定，如果显式地设置高度，高于其内容的高度，其效果类似于有额外的内边距。如果小于其内容的高度，浏览器的行为会由`overflow`决定。
+
+#### 垂直属性
+
+　　 垂直相关的属性有7个:
+
+> `margin-top`、`border-top`、`padding-top`、`height`、`padding-bottom`、`border-bottom`、`margin-bottom`
+
+　　 其中可以设置为auto的属性仅有`height`和`margin-top`、`margin-bottom`。其余值必须是非负的。需要注意的是，与水平属性不同的是，在正常流中设置`margin-top`与`margin-bottom`为auto的效果是会被计算为0。例如：
+
+html:
+
+```html
+<div class="wrapper">
+    <div class="content">
+
+    </div>
+</div>
+```
+
+```css
+.wrapper{
+    margin: 100px;
+    width: 400px;
+    height: 400px;
+    border: 1px solid black;
+}
+.content{
+    background-color: blue;
+    width: 200px;
+    height: 200px;
+    margin: auto;
+}
+```
+
+实际效果为：
+
+　　 ![box](https://github.com/MrErHu/CSS-The-Definitive-Guide-Summary/blob/master/asset/image/chapter7/margin-auto.png)
+
+
+#### 百分比高度
+
+　　 如果块级元素的高度被设置成了`auto`，则会有以下两种情况:
+
+1. 如果已经显式地声明了包含块的高度，则被包含块将会按照**包含块的高度**对应的百分比绘制。
+2. 如果没有显式地声明包含块的高度，则被包含块的高度会被置为auto。
+
+#### auto高度
+
+　　 如果设置了块级元素其高度为auto，情况有两种：
+
+1. 如果包含的是内联元素，则显示时其高度将恰好足以包含其内容，一般会在段落设置一个边框，并认为没有内边距。这样，下边框刚好在文本最后一行的下面，上边框刚好在文本第一行的上面。
+2. 如果包含的块级元素，其**默认高度是最高子元素的上边框到最低块级子元素的下边框的距离**(，因此可能会出现一种情况是子元素的外边距会超出包含这些子元素的元素)。不过，**如果块级元素有上内边距和下内边或者有上边框和下边框，其高度是最高子元素上外边距到最低子元素的下外边距**,例如
+
+```html
+<div style="height: auto;background-color: silver">
+    <div style="height: 20px;margin-top: 10px;margin-bottom: 10px">
+        situation one
+    </div>
+</div>
+<div style="height: auto;background-color: silver;border: 1px solid black">
+    <div style="height: 20px;margin-top: 10px;margin-bottom: 10px">
+        situation two
+    </div>
+</div>
+```
+
+其效果为:
+
+　　 ![box](https://github.com/MrErHu/CSS-The-Definitive-Guide-Summary/blob/master/asset/image/chapter7/height-auto.png)
+
+#### 合并垂直外边距
+　　
+　　 垂直格式化外边距另一个重要的方面是垂直相邻外边距的合并，但合并仅限于外边距，内边距和边框是不会被合并的，例如：
+
+```html
+<ul>
+    <li>first</li>
+    <li>two</li>
+    <li>three</li>
+</ul>
+```
+
+```css
+li{
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+```
+
+　　 其显示效果为
+
+　　 ![box](https://github.com/MrErHu/CSS-The-Definitive-Guide-Summary/blob/master/asset/image/chapter7/margin-merge.png)
+
+　　 如果存在多个相邻的外边距,也会存在相邻的外边距合并的情况。例如:
+
+```html
+<ul>
+    <li>first</li>
+    <li>two</li>
+</ul>
+<h3>title</h3>
+```
+
+```css
+ul{
+    margin-bottom: 15px;
+}
+li{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: silver;
+}
+h3 {
+    margin-top: 28px;
+    background-color: blue;
+}
+```
+
+显示效果是：
+
+　　 ![box](https://github.com/MrErHu/CSS-The-Definitive-Guide-Summary/blob/master/asset/image/chapter7/margin-merge1.png)
+
+我们发现`h3`的上边距是`28px`。因为相当于合并了`28px`、`20px`、`15px`。
+
+　　 但是，如果代码如下：
+
+```html
+<ul>
+    <li>first</li>
+    <li>two</li>
+</ul>
+<h3>title</h3>
+```
+
+```css
+ul{
+    margin-bottom: 15px;
+    border: 1px solid black;
+
+}
+li{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: silver;
+}
+h3 {
+    margin-top: 28px;
+    background-color: blue;
+}
+```
+
+显示效果为:
+　　
+　　 ![box](https://github.com/MrErHu/CSS-The-Definitive-Guide-Summary/blob/master/asset/image/chapter7/margin-merge2.png)
+
+我们发现`h3`和最下面的`li`变成了`28px+1px+20px`，原因是根据**如果块级元素有上内边距和下内边或者有上边框和下边框，其高度是最高子元素上外边距到最低子元素的下外边**，`li`的外边距会被包含在`ul`的高度中，那么`h3`的外边距会在`28px`与`20px`中进行合并。
+
+　　
