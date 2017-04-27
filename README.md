@@ -18,7 +18,7 @@
 * [基本视觉格式化](https://github.com/MrErHu/CSS-The-Definitive-Guide-Summary/blob/master/doc/chapter-7.md)
 * 内边距、边框、外边距
 * 颜色和背景
-* 浮动和定位
+* [浮动和定位](https://github.com/MrErHu/CSS-The-Definitive-Guide-Summary/blob/master/doc/chapter-10.md)
 * 表布局
 * 列表与生成内容
 * 用户界面样式
