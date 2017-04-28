@@ -64,3 +64,31 @@
 　　 ![box](https://github.com/MrErHu/CSS-The-Definitive-Guide-Summary/blob/master/asset/image/chapter10/float1.png)
 
 出现在后面的浮动红框左边总是紧靠着之前出现的蓝色框，但是由于黄色框在红色和蓝色框底端下面，所以它紧靠的是包含块。
+
+3. 左浮动元素的右边界不会在右边右浮动的左边界的右边。同理亦然。该规则主要为了防止浮动元素互相重叠。
+
+例如:
+
+```html
+<div class="left">左浮动</div>
+<div class="right">右浮动</div>
+```
+
+```css
+        .left{
+            float: left;
+            width: 500px;
+            height: 100px;
+            background: red;
+        }
+        .right{
+            float: right;
+            width: 500px;
+            height: 100px;
+            background: blue;
+        }
+```
+
+可以看出，当窗口不足以在同一行容纳两个浮动元素，第二个图像会被向下浮动，直到其顶端在左浮动图形底端之下。
+
+4. 浮动元素不能比包含块的内顶端更高。并且**如果浮动元素在两个合并外间距之间，这个浮动元素好像在两个元素之间存在一个块级元素** ..........
